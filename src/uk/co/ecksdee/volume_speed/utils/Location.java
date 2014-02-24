@@ -34,7 +34,7 @@ public class Location implements LocationListener {
   
   @Override
   public void onLocationChanged(android.location.Location location) {
-    main_activity.change_in_speed(get_speed());
+    main_activity.change_in_speed(speed());
   }
   
   @Override
@@ -50,6 +50,13 @@ public class Location implements LocationListener {
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
     // Do nothing
+  }
+  
+  private float speed() {
+    /*
+     * Convert from meters/second to Miles/Hour
+     */
+    return get_speed() * (float) 2.23693629;
   }
   
   private float get_speed() {

@@ -1,5 +1,7 @@
 package uk.co.ecksdee.volume_speed;
 
+import java.text.DecimalFormat;
+
 import uk.co.ecksdee.volume_speed.utils.Audio;
 import uk.co.ecksdee.volume_speed.utils.Location;
 import android.os.Bundle;
@@ -15,11 +17,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-  public final static String TAG = "MAIN";
+  
   private SharedPreferences prefs;
   private Location location;
   private Audio audio;
-  
+  private DecimalFormat decimal_format;
   private float previous_speed;
   
   @Override
@@ -42,16 +44,11 @@ public class MainActivity extends Activity {
     switch (item.getItemId()) {
     case R.id.action_settings:
       Intent intent = new Intent(this, SettingsActivity.class);
-      startActivityForResult(intent, 1);
+      startActivity(intent);
       return true;
     default:
       return false;
     }
-  }
-  
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    // Always reinitialize_view
-    initialize_view();
   }
   
   private void initialize() {
@@ -64,8 +61,8 @@ public class MainActivity extends Activity {
     _gps_on();
     
     audio = new Audio(this);
-    audio.set_step(prefs.getInt("pref_volume_step",
-        Integer.parseInt(getString(R.string.pref_volume_steps_default))));
+    
+    decimal_format = new DecimalFormat("#0.0");
     
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
@@ -80,7 +77,7 @@ public class MainActivity extends Activity {
       no_gps();
     } else {
       location.initialize();
-      RadioButton on = (RadioButton) findViewById(R.id.speed_on);
+      RadioButton on = (RadioButton) findViewById(R.id.location_on);
       on.setChecked(true);
       set_status(getString(R.string.initialized));
     }
@@ -98,7 +95,7 @@ public class MainActivity extends Activity {
   
   private void set_current_speed(Float speed) {
     TextView current_speed = (TextView) findViewById(R.id.current_speed);
-    current_speed.setText(speed.toString());
+    current_speed.setText(decimal_format.format(speed).toString());
   }
   
   private void set_status(String string) {
@@ -106,56 +103,55 @@ public class MainActivity extends Activity {
     status.setText(string);
   }
   
-  private void set_speed_units(String string) {
-    TextView speed_units = (TextView) findViewById(R.id.speed_units);
-    speed_units.setText(string);
-  }
-  
   public void initialize_view() {
     set_status(getString(R.string.initializing));
-    set_speed_units(prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default)));
   }
   
   public void no_gps() {
     TextView status = (TextView) findViewById(R.id.status);
     status.setText(getString(R.string.no_gps));
-    RadioButton off = (RadioButton) findViewById(R.id.speed_off);
+    RadioButton off = (RadioButton) findViewById(R.id.location_off);
     off.setChecked(true);
   }
   
   public void change_in_speed(float speed) {
-    float converted_speed = convert_speed(speed);
+    float speed_difference = normalize_speed(speed) - previous_speed;
     
-    float diff = converted_speed - previous_speed;
+    int step = speed_step();
+    int times = (int) Math.floor(Math.abs(speed_difference) / step);
     
-    Integer step = Integer.parseInt(prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default)));
-    Integer times = Math.round(Math.abs(diff) / step);
-    if (times > 0) {
-      if (diff > 0) {
+    if (times >= 1) {
+      if (speed_difference > 0) {
         set_status("Increasing " + times);
-        audio.up(times);
+        audio.up(volume_step() * times);
+        previous_speed += step * times;
       } else {
         set_status("Decreasing " + times);
-        audio.down(times);
+        audio.down(volume_step() * times);
+        previous_speed -= step * times;
       }
-      previous_speed = converted_speed;
     }
     
-    set_current_speed(converted_speed);
+    set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
   }
   
-  private float convert_speed(float meters_per_second) {
-    String units = prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default));
-    if (units.equals("MPH")) {
-      return meters_per_second * (float) 2.23693629;
-    } else if (units.equals("KPH")) {
-      return meters_per_second * (float) 3.6;
-    } else {
-      return (float) -1.0;
-    }
+  private float normalize_speed(float speed) {
+    return (speed < speed_minimum()) ? 0 : speed - speed_minimum();
+  }
+  
+  private int speed_step() {
+    return Integer.parseInt(prefs.getString("pref_speed_step",
+        getString(R.string.pref_speed_step_default)));
+  }
+  
+  private int volume_step() {
+    return Integer.parseInt(prefs.getString("pref_volume_step",
+        getString(R.string.pref_volume_step_default)));
+  }
+  
+  private int speed_minimum() {
+    return Integer.parseInt(prefs.getString("pref_speed_minimum",
+        getString(R.string.pref_speed_minimum_default)));
   }
 }
