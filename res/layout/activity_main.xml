@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" >
+        android:paddingTop="@dimen/main_activity_child_vertical_padding"
+        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
 
         <RadioButton
             android:id="@+id/speed_on"
@@ -35,8 +35,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" >
+        android:paddingTop="@dimen/main_activity_child_vertical_padding"
+        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
 
         <TextView
             android:id="@+id/volume_label"
@@ -57,8 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" >
+        android:paddingTop="@dimen/main_activity_child_vertical_padding"
+        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
 
         <TextView
             android:id="@+id/speed_label"
@@ -94,8 +94,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" >
+        android:paddingTop="@dimen/main_activity_child_vertical_padding"
+        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
 
         <TextView
             android:id="@+id/status_label"
