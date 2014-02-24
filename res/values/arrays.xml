@@ -17,11 +17,11 @@
     </string-array>
 
     <string-array name="pref_speed_steps_entries">
-        <item>Two</item>
-        <item>Five</item>
-        <item>Ten</item>
-        <item>Fifteen</item>
-        <item>Twenty</item>
+        <item>2 mph</item>
+        <item>5 mph</item>
+        <item>10 mph</item>
+        <item>15 mph</item>
+        <item>20 mph</item>
     </string-array>
 
     <string-array name="pref_speed_steps_values">

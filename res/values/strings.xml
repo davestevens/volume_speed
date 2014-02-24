@@ -11,9 +11,9 @@
     <string name="volume_label">Volume</string>
     <string name="speed_label">Speed</string>
     <string name="current_speed">-</string>
+    <string name="speed_units">mph</string>
     <string name="status_label">Status</string>
     <string name="status">status</string>
-    <string name="speed_units">MPH</string>
     
     <!-- Statuses -->
     <string name="initializing">Initializing&#8230;</string>
