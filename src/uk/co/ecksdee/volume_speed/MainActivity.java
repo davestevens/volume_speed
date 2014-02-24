@@ -148,12 +148,12 @@ public class MainActivity extends Activity {
   }
   
   private Integer speed_step() {
-    return Integer.parseInt(prefs.getString("pref_speed_steps",
-        getString(R.string.pref_speed_steps_default)));
+    return Integer.parseInt(prefs.getString("pref_speed_step",
+        getString(R.string.pref_speed_step_default)));
   }
   
   private Integer volume_step() {
-    return Integer.parseInt(prefs.getString("pref_volume_steps",
-        getString(R.string.pref_volume_steps_default)));
+    return Integer.parseInt(prefs.getString("pref_volume_step",
+        getString(R.string.pref_volume_step_default)));
   }
 }

@@ -20,8 +20,8 @@
     <string name="initialized">Initialized</string>
     <string name="no_gps">No GPS available</string>
 
-    <string name="pref_volume_steps">Volume Steps</string>
-    <string name="pref_volume_steps_default">2</string>
-    <string name="pref_speed_steps">Speed Steps</string>
-    <string name="pref_speed_steps_default">10</string>
+    <string name="pref_volume_step">Volume Steps</string>
+    <string name="pref_volume_step_default">2</string>
+    <string name="pref_speed_step">Speed Steps</string>
+    <string name="pref_speed_step_default">10</string>
 </resources>

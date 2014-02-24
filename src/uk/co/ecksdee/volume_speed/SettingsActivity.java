@@ -14,8 +14,8 @@ public class SettingsActivity extends PreferenceActivity {
     
     addPreferencesFromResource(R.xml.preferences);
     
-    bindPreferenceSummaryToValue(findPreference("pref_volume_steps"));
-    bindPreferenceSummaryToValue(findPreference("pref_speed_steps"));
+    bindPreferenceSummaryToValue(findPreference("pref_volume_step"));
+    bindPreferenceSummaryToValue(findPreference("pref_speed_step"));
   }
   
   /**
