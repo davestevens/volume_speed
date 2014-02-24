@@ -24,4 +24,6 @@
     <string name="pref_volume_step_default">2</string>
     <string name="pref_speed_step">Speed Steps</string>
     <string name="pref_speed_step_default">10</string>
+    <string name="pref_speed_minimum">Minimum Speed</string>
+    <string name="pref_speed_minimum_default">30</string>
 </resources>

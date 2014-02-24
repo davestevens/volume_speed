@@ -17,4 +17,12 @@
         android:entryValues="@array/pref_speed_step_values"
         android:defaultValue="@string/pref_speed_step_default"
     />
+    
+    <EditTextPreference
+		android:key="pref_speed_minimum"
+		android:title="@string/pref_speed_minimum"
+    	android:dialogTitle="@string/pref_speed_minimum"
+    	android:inputType="number"
+    	android:defaultValue="@string/pref_speed_minimum_default"
+    />
 </PreferenceScreen>

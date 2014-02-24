@@ -1,5 +1,7 @@
 package uk.co.ecksdee.volume_speed;
 
+import java.text.DecimalFormat;
+
 import uk.co.ecksdee.volume_speed.utils.Audio;
 import uk.co.ecksdee.volume_speed.utils.Location;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ public class MainActivity extends Activity {
   private SharedPreferences prefs;
   private Location location;
   private Audio audio;
+  private DecimalFormat decimal_format;
   private float previous_speed;
   
   @Override
@@ -59,14 +62,10 @@ public class MainActivity extends Activity {
     
     audio = new Audio(this);
     
+    decimal_format = new DecimalFormat("#0.0");
+    
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
-    
-    double[] myArray = { 0.0, 1.0, 2.0, 2.5, 4.0, 1.5, 4.0, 0.5 };
-    
-    for (int i = 0; i < myArray.length; i++) {
-      change_in_speed((float) myArray[i]);
-    }
   }
   
   public void gps_on(View view) {
@@ -96,7 +95,7 @@ public class MainActivity extends Activity {
   
   private void set_current_speed(Float speed) {
     TextView current_speed = (TextView) findViewById(R.id.current_speed);
-    current_speed.setText(speed.toString());
+    current_speed.setText(decimal_format.format(speed).toString());
   }
   
   private void set_status(String string) {
@@ -116,21 +115,29 @@ public class MainActivity extends Activity {
   }
   
   public void change_in_speed(float speed) {
-    float speed_difference = speed - previous_speed;
+    float speed_difference = normalize_speed(speed) - previous_speed;
     
-    int times = (int) Math.floor(Math.abs(speed_difference) / speed_step());
-    if (times > 0) {
+    int step = speed_step();
+    int times = (int) Math.floor(Math.abs(speed_difference) / step);
+    
+    if (times >= 1) {
       if (speed_difference > 0) {
+        set_status("Increasing " + times);
         audio.up(volume_step() * times);
-        previous_speed += speed_step() * times;
+        previous_speed += step * times;
       } else {
+        set_status("Decreasing " + times);
         audio.down(volume_step() * times);
-        previous_speed -= speed_step() * times;
+        previous_speed -= step * times;
       }
     }
     
     set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
+  }
+  
+  private float normalize_speed(float speed) {
+    return (speed < speed_minimum()) ? 0 : speed - speed_minimum();
   }
   
   private int speed_step() {
@@ -141,5 +148,10 @@ public class MainActivity extends Activity {
   private int volume_step() {
     return Integer.parseInt(prefs.getString("pref_volume_step",
         getString(R.string.pref_volume_step_default)));
+  }
+  
+  private int speed_minimum() {
+    return Integer.parseInt(prefs.getString("pref_speed_minimum",
+        getString(R.string.pref_speed_minimum_default)));
   }
 }
