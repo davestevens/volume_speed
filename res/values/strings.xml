@@ -12,14 +12,10 @@
     <string name="speed_label">Speed</string>
     <string name="current_speed">-</string>
     <string name="speed_units">mph</string>
-    <string name="status_label">Status</string>
-    <string name="status">status</string>
     
-    <!-- Statuses -->
-    <string name="initializing">Initializing&#8230;</string>
-    <string name="initialized">Initialized</string>
-    <string name="no_gps">No GPS available</string>
-
+    <string name="no_gps_title">No GPS available</string>
+	<string name="no_gps_message">You must enable GPS to use this app.</string>
+    
     <string name="pref_volume_step">Volume Steps</string>
     <string name="pref_volume_step_default">2</string>
     <string name="pref_speed_step">Speed Steps</string>

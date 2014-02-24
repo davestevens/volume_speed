@@ -7,6 +7,8 @@ import uk.co.ecksdee.volume_speed.utils.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
@@ -53,7 +55,6 @@ public class MainActivity extends Activity {
   
   private void initialize() {
     load_preferences();
-    initialize_view();
     
     location = new Location(this);
     audio = new Audio(this);
@@ -61,7 +62,6 @@ public class MainActivity extends Activity {
     
     _gps_on();
     set_volume_bar(audio.volume_percentage());
-    set_status(getString(R.string.initialized));
   }
   
   /*
@@ -75,15 +75,6 @@ public class MainActivity extends Activity {
   private void set_current_speed(Float speed) {
     TextView current_speed = (TextView) findViewById(R.id.current_speed);
     current_speed.setText(decimal_format.format(speed).toString());
-  }
-  
-  private void set_status(String string) {
-    TextView status = (TextView) findViewById(R.id.status);
-    status.setText(string);
-  }
-  
-  private void initialize_view() {
-    set_status(getString(R.string.initializing));
   }
   
   /*
@@ -105,13 +96,11 @@ public class MainActivity extends Activity {
       location.initialize();
       RadioButton on = (RadioButton) findViewById(R.id.location_on);
       on.setChecked(true);
-      set_status(getString(R.string.initialized));
     }
   }
   
   public void no_gps() {
-    TextView status = (TextView) findViewById(R.id.status);
-    status.setText(getString(R.string.no_gps));
+    alert(getString(R.string.no_gps_title), getString(R.string.no_gps_message));
     RadioButton off = (RadioButton) findViewById(R.id.location_off);
     off.setChecked(true);
   }
@@ -128,10 +117,8 @@ public class MainActivity extends Activity {
     
     if (times >= 1) {
       if (speed_difference > 0) {
-        set_status("Increasing " + times);
         change = audio.up(volume_step() * times);
       } else {
-        set_status("Decreasing " + times);
         change = audio.down(volume_step() * times);
       }
     }
@@ -165,5 +152,24 @@ public class MainActivity extends Activity {
   private int speed_minimum() {
     return Integer.parseInt(prefs.getString("pref_speed_minimum",
         getString(R.string.pref_speed_minimum_default)));
+  }
+  
+  /*
+   * Alert dialog
+   */
+  private void alert(String title, String message) {
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+    alertDialogBuilder.setTitle(title);
+    
+    alertDialogBuilder.setMessage(message).setCancelable(false)
+        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+    
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    
+    alertDialog.show();
   }
 }
