@@ -124,19 +124,18 @@ public class MainActivity extends Activity {
     
     int step = speed_step();
     int times = (int) Math.floor(Math.abs(speed_difference) / step);
+    int change = 0;
     
     if (times >= 1) {
       if (speed_difference > 0) {
         set_status("Increasing " + times);
-        audio.up(volume_step() * times);
-        previous_speed += step * times;
+        change = audio.up(volume_step() * times);
       } else {
         set_status("Decreasing " + times);
-        audio.down(volume_step() * times);
-        previous_speed -= step * times;
+        change = audio.down(volume_step() * times);
       }
     }
-    
+    previous_speed += step * change;
     set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
   }

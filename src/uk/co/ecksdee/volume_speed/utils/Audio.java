@@ -28,8 +28,9 @@ public class Audio {
   }
   
   private int alter(int diff) {
+    int before = current_volume();
     audioManager.setStreamVolume(stream, current_volume() + diff, 0);
-    return current_volume();
+    return current_volume() - before;
   }
   
   private int current_volume() {
