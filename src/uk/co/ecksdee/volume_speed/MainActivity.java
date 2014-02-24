@@ -8,12 +8,14 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
   public final static String TAG = "MAIN";
   private SharedPreferences prefs;
   private Speed speed;
+  private Audio audio;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,17 @@ public class MainActivity extends Activity {
       no_gps();
     }
     
-    // TODO: setup Volume
+    audio = new Audio(this);
+    audio.set_step(prefs.getInt("pref_volume_step",
+        Integer.parseInt(getString(R.string.pref_volume_steps_default))));
+    
+    set_volume_bar(audio.volume_percentage());
     // TODO: on change of Preferences, update view
+  }
+  
+  private void set_volume_bar(Integer v) {
+    ProgressBar volume = (ProgressBar) findViewById(R.id.volume_bar);
+    volume.setProgress(v);
   }
   
   public void initialize_view() {
@@ -65,7 +76,7 @@ public class MainActivity extends Activity {
     
     speed_units = (TextView) findViewById(R.id.speed_units);
     speed_units.setText(prefs.getString("pref_speed_units",
-        "pref_speed_units_default"));
+        getString(R.string.pref_speed_units_default)));
   }
   
   public void no_gps() {
