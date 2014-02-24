@@ -10,19 +10,19 @@ import android.view.MenuItem;
 public class MainActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-
+    initialize();
+    
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
   }
-
+  
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.main, menu);
     return true;
   }
-
+  
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
@@ -33,5 +33,13 @@ public class MainActivity extends Activity {
     default:
       return false;
     }
+  }
+  
+  private void initialize() {
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+    // TODO: setup Speed
+    // TODO: setup Volume
+    // TODO: initialize view (speed_units, volume_bar, status)
+    // TODO: on change of Preferences, update view
   }
 }
