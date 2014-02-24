@@ -17,12 +17,12 @@ public class Audio {
     this.step = step;
   }
   
-  public Integer up() {
-    return alter(step);
+  public Integer up(Integer times) {
+    return alter(step * times);
   }
   
-  public Integer down() {
-    return alter(-step);
+  public Integer down(Integer times) {
+    return alter(-step * times);
   }
   
   public Integer volume_percentage() {

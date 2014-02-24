@@ -5,10 +5,11 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -53,9 +54,7 @@ public class MainActivity extends Activity {
     initialize_view();
     
     speed = new Speed(this);
-    if (!speed.is_enabled()) {
-      no_gps();
-    }
+    _gps_on();
     
     audio = new Audio(this);
     audio.set_step(prefs.getInt("pref_volume_step",
@@ -65,6 +64,25 @@ public class MainActivity extends Activity {
     set_status(getString(R.string.initialized));
     
     // TODO: on change of Preferences, update view
+  }
+  
+  public void gps_on(View view) {
+    _gps_on();
+  }
+  
+  public void _gps_on() {
+    if (!speed.is_enabled()) {
+      no_gps();
+    } else {
+      speed.initialize();
+      RadioButton on = (RadioButton) findViewById(R.id.speed_on);
+      on.setChecked(true);
+    }
+  }
+  
+  public void gps_off(View view) {
+    speed.pause();
+    no_gps();
   }
   
   private void set_volume_bar(Integer volume) {
@@ -96,13 +114,41 @@ public class MainActivity extends Activity {
   public void no_gps() {
     TextView status = (TextView) findViewById(R.id.status);
     status.setText(getString(R.string.no_gps));
+    RadioButton off = (RadioButton) findViewById(R.id.speed_off);
+    off.setChecked(true);
   }
   
   public void change_in_speed(float speed) {
-    // TODO: convert to correct speed units
-    // TODO: check if it has changed passed a threshold
-    set_current_speed(speed);
-    // TODO: save speed
-    previous_speed = speed;
+    float converted_speed = convert_speed(speed);
+    
+    float diff = converted_speed - previous_speed;
+    
+    // TODO: get prefs_speed_step as int
+    Integer times = Math.round(Math.abs(diff) / 2);
+    if (times > 0) {
+      if (diff > 0) {
+        set_status("Increasing " + times);
+        audio.up(times);
+      } else {
+        set_status("Decreasing " + times);
+        audio.down(times);
+      }
+      previous_speed = converted_speed;
+    }
+    
+    set_current_speed(converted_speed);
+    set_volume_bar(audio.volume_percentage());
+  }
+  
+  private float convert_speed(float meters_per_second) {
+    String units = prefs.getString("pref_speed_units",
+        getString(R.string.pref_speed_units_default));
+    if (units.equals("MPH")) {
+      return meters_per_second * (float) 2.23693629;
+    } else if (units.equals("KPH")) {
+      return meters_per_second * (float) 3.6;
+    } else {
+      return (float) -1.0;
+    }
   }
 }

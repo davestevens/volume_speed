@@ -22,12 +22,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
+            android:onClick="gps_on"
             android:text="@string/speed_on" />
 
         <RadioButton
             android:id="@+id/speed_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="gps_off"
             android:text="@string/speed_off" />
     </RadioGroup>
 

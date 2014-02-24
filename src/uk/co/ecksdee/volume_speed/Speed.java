@@ -17,7 +17,9 @@ public class Speed implements LocationListener {
     main_activity = ma;
     locationManager = (LocationManager) main_activity
         .getSystemService(Context.LOCATION_SERVICE);
-    
+  }
+  
+  public void initialize() {
     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
         MIN_TIME, MIN_DISTANCE, this);
   }
@@ -32,7 +34,7 @@ public class Speed implements LocationListener {
   
   @Override
   public void onLocationChanged(Location location) {
-    // Do nothing
+    main_activity.change_in_speed(get_speed());
   }
   
   @Override
@@ -42,12 +44,12 @@ public class Speed implements LocationListener {
   
   @Override
   public void onProviderEnabled(String provider) {
-    // Do nothing
+    main_activity._gps_on();
   }
   
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
-    main_activity.change_in_speed(get_speed());
+    // main_activity.change_in_speed(get_speed());
   }
   
   private float get_speed() {
