@@ -6,8 +6,8 @@
 
     <string name="title_activity_settings">Settings</string>
 
-    <string name="speed_on">On</string>
-    <string name="speed_off">Off</string>
+    <string name="location_on">On</string>
+    <string name="location_off">Off</string>
     <string name="volume_label">Volume</string>
     <string name="speed_label">Speed</string>
     <string name="current_speed">-</string>

@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
       no_gps();
     } else {
       location.initialize();
-      RadioButton on = (RadioButton) findViewById(R.id.speed_on);
+      RadioButton on = (RadioButton) findViewById(R.id.location_on);
       on.setChecked(true);
       set_status(getString(R.string.initialized));
     }
@@ -120,7 +120,7 @@ public class MainActivity extends Activity {
   public void no_gps() {
     TextView status = (TextView) findViewById(R.id.status);
     status.setText(getString(R.string.no_gps));
-    RadioButton off = (RadioButton) findViewById(R.id.speed_off);
+    RadioButton off = (RadioButton) findViewById(R.id.location_off);
     off.setChecked(true);
   }
   

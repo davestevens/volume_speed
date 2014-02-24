@@ -10,7 +10,7 @@
     tools:context=".MainActivity" >
 
     <RadioGroup
-        android:id="@+id/speed"
+        android:id="@+id/location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -18,19 +18,19 @@
         android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
 
         <RadioButton
-            android:id="@+id/speed_on"
+            android:id="@+id/location_on"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:onClick="gps_on"
-            android:text="@string/speed_on" />
+            android:text="@string/location_on" />
 
         <RadioButton
-            android:id="@+id/speed_off"
+            android:id="@+id/location_off"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="gps_off"
-            android:text="@string/speed_off" />
+            android:text="@string/location_off" />
     </RadioGroup>
 
     <LinearLayout
