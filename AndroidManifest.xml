@@ -22,6 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="uk.co.ecksdee.volume_speed.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="uk.co.ecksdee.volume_speed.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.co.ecksdee.volume_speed.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
