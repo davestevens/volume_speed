@@ -13,6 +13,7 @@
     <string name="current_speed">-</string>
     <string name="status_label">Status</string>
     <string name="status">status</string>
+    <string name="speed_units">MPH</string>
     
     <!-- Statuses -->
     <string name="initializing">Initializing&#8230;</string>
@@ -21,8 +22,6 @@
 
     <string name="pref_volume_steps">Volume Steps</string>
     <string name="pref_volume_steps_default">2</string>
-	<string name="pref_speed_units">Speed Units</string>
-	<string name="pref_speed_units_default">MPH</string>
     <string name="pref_speed_steps">Speed Steps</string>
     <string name="pref_speed_steps_default">10</string>
 </resources>

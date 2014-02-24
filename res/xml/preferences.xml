@@ -10,15 +10,6 @@
     />
 
     <ListPreference
-        android:key="pref_speed_units"
-        android:title="@string/pref_speed_units"
-        android:dialogTitle="@string/pref_speed_units"
-        android:entries="@array/pref_speed_units_entries"
-        android:entryValues="@array/pref_speed_units_values"
-        android:defaultValue="@string/pref_speed_units_default"
-    />
-
-    <ListPreference
         android:key="pref_speed_steps"
         android:title="@string/pref_speed_steps"
         android:dialogTitle="@string/pref_speed_steps"

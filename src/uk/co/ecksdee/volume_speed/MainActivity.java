@@ -43,16 +43,11 @@ public class MainActivity extends Activity {
     switch (item.getItemId()) {
     case R.id.action_settings:
       Intent intent = new Intent(this, SettingsActivity.class);
-      startActivityForResult(intent, 1);
+      startActivity(intent);
       return true;
     default:
       return false;
     }
-  }
-  
-  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-    // Always reinitialize_view
-    initialize_view();
   }
   
   private void initialize() {
@@ -120,8 +115,6 @@ public class MainActivity extends Activity {
   
   public void initialize_view() {
     set_status(getString(R.string.initializing));
-    set_speed_units(prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default)));
   }
   
   public void no_gps() {
@@ -132,10 +125,10 @@ public class MainActivity extends Activity {
   }
   
   public void change_in_speed(float speed) {
-    float converted_speed = speed;// convert_speed(speed);
+    float converted_speed = speed;
     
-    float diff = converted_speed - previous_speed;
-    Log.i(TAG, "converted_speed: " + converted_speed);
+    float diff = speed - previous_speed;
+    Log.i(TAG, "converted_speed: " + speed);
     Log.i(TAG, "previous_speed: " + previous_speed);
     Log.i(TAG, "diff: " + diff);
     
@@ -159,19 +152,7 @@ public class MainActivity extends Activity {
       }
     }
     
-    set_current_speed(converted_speed);
+    set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
-  }
-  
-  private float convert_speed(float meters_per_second) {
-    String units = prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default));
-    if (units.equals("MPH")) {
-      return meters_per_second * (float) 2.23693629;
-    } else if (units.equals("KPH")) {
-      return meters_per_second * (float) 3.6;
-    } else {
-      return (float) -1.0;
-    }
   }
 }
