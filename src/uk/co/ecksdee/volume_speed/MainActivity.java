@@ -60,7 +60,6 @@ public class MainActivity extends Activity {
     _gps_on();
     
     audio = new Audio(this);
-    audio.set_step(volume_step());
     
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
@@ -119,26 +118,26 @@ public class MainActivity extends Activity {
   }
   
   public void change_in_speed(float speed) {
-    float diff = speed - previous_speed;
+    float speed_difference = speed - previous_speed;
     Log.i(TAG, "converted_speed: " + speed);
     Log.i(TAG, "previous_speed: " + previous_speed);
-    Log.i(TAG, "diff: " + diff);
+    Log.i(TAG, "diff: " + speed_difference);
     
     int step = speed_step();
     Log.i(TAG, "step: " + step);
-    Log.i(TAG, "times: " + (int) Math.floor(Math.abs(diff) / step));
-    Integer times = (int) Math.floor(Math.abs(diff) / step);
+    Log.i(TAG, "times: " + (int) Math.floor(Math.abs(speed_difference) / step));
+    int times = (int) Math.floor(Math.abs(speed_difference) / step);
     if (times >= 1) {
       Log.i(TAG, "TIMES > 0");
-      if (diff > 0) {
+      if (speed_difference > 0) {
         Log.i(TAG, "increase: " + times);
         set_status("Increasing " + times);
-        audio.up(times);
+        audio.up(volume_step() * times);
         previous_speed += step * times;
       } else {
         Log.i(TAG, "decrease: " + times);
         set_status("Decreasing " + times);
-        audio.down(times);
+        audio.down(volume_step() * times);
         previous_speed -= step * times;
       }
     }
@@ -147,12 +146,12 @@ public class MainActivity extends Activity {
     set_volume_bar(audio.volume_percentage());
   }
   
-  private Integer speed_step() {
+  private int speed_step() {
     return Integer.parseInt(prefs.getString("pref_speed_step",
         getString(R.string.pref_speed_step_default)));
   }
   
-  private Integer volume_step() {
+  private int volume_step() {
     return Integer.parseInt(prefs.getString("pref_volume_step",
         getString(R.string.pref_volume_step_default)));
   }

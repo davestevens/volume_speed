@@ -7,37 +7,32 @@ import android.content.Context;
 public class Audio {
   private AudioManager audioManager;
   private static Integer stream = AudioManager.STREAM_MUSIC;
-  private Integer step;
   
   public Audio(MainActivity main_activity) {
     audioManager = (AudioManager) main_activity
         .getSystemService(Context.AUDIO_SERVICE);
   }
   
-  public void set_step(Integer step) {
-    this.step = step;
+  public int up(int steps) {
+    return alter(steps);
   }
   
-  public Integer up(Integer times) {
-    return alter(step * times);
+  public int down(int steps) {
+    return alter(-steps);
   }
   
-  public Integer down(Integer times) {
-    return alter(-step * times);
-  }
-  
-  public Integer volume_percentage() {
+  public int volume_percentage() {
     float volume = ((float) current_volume() / audioManager
         .getStreamMaxVolume(stream)) * 100;
     return Math.round(volume);
   }
   
-  private Integer alter(Integer diff) {
+  private int alter(int diff) {
     audioManager.setStreamVolume(stream, current_volume() + diff, 0);
     return current_volume();
   }
   
-  public Integer current_volume() {
+  private int current_volume() {
     return audioManager.getStreamVolume(stream);
   }
 }
