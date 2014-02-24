@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -69,6 +70,12 @@ public class MainActivity extends Activity {
     
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
+    
+    double[] myArray = { 0.0, 1.0, 2.0, 2.5, 4.0, 1.5, 4.0, 0.5 };
+    
+    for (int i = 0; i < myArray.length; i++) {
+      change_in_speed((float) myArray[i]);
+    }
   }
   
   public void gps_on(View view) {
@@ -125,22 +132,31 @@ public class MainActivity extends Activity {
   }
   
   public void change_in_speed(float speed) {
-    float converted_speed = convert_speed(speed);
+    float converted_speed = speed;// convert_speed(speed);
     
     float diff = converted_speed - previous_speed;
+    Log.i(TAG, "converted_speed: " + converted_speed);
+    Log.i(TAG, "previous_speed: " + previous_speed);
+    Log.i(TAG, "diff: " + diff);
     
-    Integer step = Integer.parseInt(prefs.getString("pref_speed_units",
-        getString(R.string.pref_speed_units_default)));
-    Integer times = Math.round(Math.abs(diff) / step);
-    if (times > 0) {
+    Integer step = Integer.parseInt(prefs.getString("pref_speed_steps",
+        getString(R.string.pref_speed_steps_default)));
+    Log.i(TAG, "step: " + step);
+    Log.i(TAG, "times: " + (int) Math.floor(Math.abs(diff) / step));
+    Integer times = (int) Math.floor(Math.abs(diff) / step);
+    if (times >= 1) {
+      Log.i(TAG, "TIMES > 0");
       if (diff > 0) {
+        Log.i(TAG, "increase: " + times);
         set_status("Increasing " + times);
         audio.up(times);
+        previous_speed += step * times;
       } else {
+        Log.i(TAG, "decrease: " + times);
         set_status("Decreasing " + times);
         audio.down(times);
+        previous_speed -= step * times;
       }
-      previous_speed = converted_speed;
     }
     
     set_current_speed(converted_speed);
