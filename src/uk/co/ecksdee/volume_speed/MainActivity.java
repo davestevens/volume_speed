@@ -42,11 +42,16 @@ public class MainActivity extends Activity {
     switch (item.getItemId()) {
     case R.id.action_settings:
       Intent intent = new Intent(this, SettingsActivity.class);
-      startActivity(intent);
+      startActivityForResult(intent, 1);
       return true;
     default:
       return false;
     }
+  }
+  
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    // Always reinitialize_view
+    initialize_view();
   }
   
   private void initialize() {
@@ -64,8 +69,6 @@ public class MainActivity extends Activity {
     
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
-    
-    // TODO: on change of Preferences, update view
   }
   
   public void gps_on(View view) {
@@ -126,8 +129,9 @@ public class MainActivity extends Activity {
     
     float diff = converted_speed - previous_speed;
     
-    // TODO: get prefs_speed_step as int
-    Integer times = Math.round(Math.abs(diff) / 2);
+    Integer step = Integer.parseInt(prefs.getString("pref_speed_units",
+        getString(R.string.pref_speed_units_default)));
+    Integer times = Math.round(Math.abs(diff) / step);
     if (times > 0) {
       if (diff > 0) {
         set_status("Increasing " + times);
