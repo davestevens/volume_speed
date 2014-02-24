@@ -11,14 +11,17 @@
     <string name="volume_label">Volume</string>
     <string name="speed_label">Speed</string>
     <string name="current_speed">00.00</string>
-    <string name="speed_units">*PH</string>
     <string name="status_label">Status</string>
     <string name="status">status</string>
+    
+    <!-- Statuses -->
+    <string name="initializing">Initializing...</string>
+    <string name="no_gps">No GPS available</string>
 
     <string name="pref_volume_steps">Volume Steps</string>
     <string name="pref_volume_steps_default">2</string>
 	<string name="pref_speed_units">Speed Units</string>
-	<string name="pref_speed_units_default">mph</string>
+	<string name="pref_speed_units_default">MPH</string>
     <string name="pref_speed_steps">Speed Steps</string>
     <string name="pref_speed_steps_default">10</string>
 </resources>

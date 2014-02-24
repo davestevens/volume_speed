@@ -22,8 +22,8 @@
     </string-array>
 
     <string-array name="pref_speed_units_values">
-        <item>mph</item>
-        <item>kph</item>
+        <item>MPH</item>
+        <item>KPH</item>
     </string-array>
 
     <string-array name="pref_speed_steps_entries">

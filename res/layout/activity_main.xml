@@ -82,7 +82,7 @@
                 android:id="@+id/speed_units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/speed_units"
+                android:text="@string/pref_speed_units_default"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:paddingLeft="10dp" />
 
