@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,11 +15,10 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-  public final static String TAG = "MAIN";
+  
   private SharedPreferences prefs;
   private Location location;
   private Audio audio;
-  
   private float previous_speed;
   
   @Override
@@ -119,26 +117,15 @@ public class MainActivity extends Activity {
   
   public void change_in_speed(float speed) {
     float speed_difference = speed - previous_speed;
-    Log.i(TAG, "converted_speed: " + speed);
-    Log.i(TAG, "previous_speed: " + previous_speed);
-    Log.i(TAG, "diff: " + speed_difference);
     
-    int step = speed_step();
-    Log.i(TAG, "step: " + step);
-    Log.i(TAG, "times: " + (int) Math.floor(Math.abs(speed_difference) / step));
-    int times = (int) Math.floor(Math.abs(speed_difference) / step);
-    if (times >= 1) {
-      Log.i(TAG, "TIMES > 0");
+    int times = (int) Math.floor(Math.abs(speed_difference) / speed_step());
+    if (times > 0) {
       if (speed_difference > 0) {
-        Log.i(TAG, "increase: " + times);
-        set_status("Increasing " + times);
         audio.up(volume_step() * times);
-        previous_speed += step * times;
+        previous_speed += speed_step() * times;
       } else {
-        Log.i(TAG, "decrease: " + times);
-        set_status("Decreasing " + times);
         audio.down(volume_step() * times);
-        previous_speed -= step * times;
+        previous_speed -= speed_step() * times;
       }
     }
     
