@@ -1,5 +1,7 @@
 package uk.co.ecksdee.volume_speed;
 
+import uk.co.ecksdee.volume_speed.utils.Audio;
+import uk.co.ecksdee.volume_speed.utils.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
   public final static String TAG = "MAIN";
   private SharedPreferences prefs;
-  private Speed speed;
+  private Location location;
   private Audio audio;
   
   private float previous_speed;
@@ -53,7 +55,7 @@ public class MainActivity extends Activity {
     
     initialize_view();
     
-    speed = new Speed(this);
+    location = new Location(this);
     _gps_on();
     
     audio = new Audio(this);
@@ -71,17 +73,18 @@ public class MainActivity extends Activity {
   }
   
   public void _gps_on() {
-    if (!speed.is_enabled()) {
+    if (!location.is_enabled()) {
       no_gps();
     } else {
-      speed.initialize();
+      location.initialize();
       RadioButton on = (RadioButton) findViewById(R.id.speed_on);
       on.setChecked(true);
+      set_status(getString(R.string.initialized));
     }
   }
   
   public void gps_off(View view) {
-    speed.pause();
+    location.pause();
     no_gps();
   }
   

@@ -1,5 +1,6 @@
-package uk.co.ecksdee.volume_speed;
+package uk.co.ecksdee.volume_speed.utils;
 
+import uk.co.ecksdee.volume_speed.MainActivity;
 import android.media.AudioManager;
 import android.content.Context;
 

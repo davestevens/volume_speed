@@ -1,19 +1,19 @@
-package uk.co.ecksdee.volume_speed;
+package uk.co.ecksdee.volume_speed.utils;
 
+import uk.co.ecksdee.volume_speed.MainActivity;
 import android.content.Context;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.Location;
 import android.os.Bundle;
 
-public class Speed implements LocationListener {
+public class Location implements LocationListener {
   private MainActivity main_activity;
   private LocationManager locationManager;
   
   private static float MIN_DISTANCE = 10; // Meters
   private static long MIN_TIME = 1000; // Milliseconds
   
-  public Speed(MainActivity ma) {
+  public Location(MainActivity ma) {
     main_activity = ma;
     locationManager = (LocationManager) main_activity
         .getSystemService(Context.LOCATION_SERVICE);
@@ -33,7 +33,7 @@ public class Speed implements LocationListener {
   }
   
   @Override
-  public void onLocationChanged(Location location) {
+  public void onLocationChanged(android.location.Location location) {
     main_activity.change_in_speed(get_speed());
   }
   
@@ -49,17 +49,19 @@ public class Speed implements LocationListener {
   
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
-    // main_activity.change_in_speed(get_speed());
+    // Do nothing
   }
   
   private float get_speed() {
-    Location location;
+    android.location.Location location;
     
     location = locationManager
         .getLastKnownLocation(LocationManager.GPS_PROVIDER);
     
     if (location.hasSpeed()) {
       return location.getSpeed();
+    } else {
+      // TODO: Calculate speed manually?
     }
     
     return (float) 0.0;
