@@ -12,6 +12,7 @@
     <string name="speed_label">Speed</string>
     <string name="current_speed">-</string>
     <string name="speed_units">mph</string>
+    <string name="gps_label">GPS</string>
     
     <string name="no_gps_title">No GPS available</string>
 	<string name="no_gps_message">You must enable GPS to use this app.</string>
