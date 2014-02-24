@@ -15,7 +15,7 @@
     <string name="status">status</string>
     
     <!-- Statuses -->
-    <string name="initializing">Initializing...</string>
+    <string name="initializing">Initializing&#8230;</string>
     <string name="initialized">Initialized</string>
     <string name="no_gps">No GPS available</string>
 
