@@ -52,42 +52,21 @@ public class MainActivity extends Activity {
   }
   
   private void initialize() {
-    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-    prefs = PreferenceManager.getDefaultSharedPreferences(this);
-    
+    load_preferences();
     initialize_view();
     
     location = new Location(this);
-    _gps_on();
-    
     audio = new Audio(this);
-    
     decimal_format = new DecimalFormat("#0.0");
     
+    _gps_on();
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
   }
   
-  public void gps_on(View view) {
-    _gps_on();
-  }
-  
-  public void _gps_on() {
-    if (!location.is_enabled()) {
-      no_gps();
-    } else {
-      location.initialize();
-      RadioButton on = (RadioButton) findViewById(R.id.location_on);
-      on.setChecked(true);
-      set_status(getString(R.string.initialized));
-    }
-  }
-  
-  public void gps_off(View view) {
-    location.pause();
-    no_gps();
-  }
-  
+  /*
+   * View settings
+   */
   private void set_volume_bar(Integer volume) {
     ProgressBar volume_bar = (ProgressBar) findViewById(R.id.volume_bar);
     volume_bar.setProgress(volume);
@@ -103,8 +82,31 @@ public class MainActivity extends Activity {
     status.setText(string);
   }
   
-  public void initialize_view() {
+  private void initialize_view() {
     set_status(getString(R.string.initializing));
+  }
+  
+  /*
+   * GPS statuses
+   */
+  public void gps_on(View view) {
+    _gps_on();
+  }
+  
+  public void gps_off(View view) {
+    location.pause();
+    no_gps();
+  }
+  
+  public void _gps_on() {
+    if (!location.is_enabled()) {
+      no_gps();
+    } else {
+      location.initialize();
+      RadioButton on = (RadioButton) findViewById(R.id.location_on);
+      on.setChecked(true);
+      set_status(getString(R.string.initialized));
+    }
   }
   
   public void no_gps() {
@@ -114,6 +116,9 @@ public class MainActivity extends Activity {
     off.setChecked(true);
   }
   
+  /*
+   * Speed calculations
+   */
   public void change_in_speed(float speed) {
     float speed_difference = normalize_speed(speed) - previous_speed;
     
@@ -138,6 +143,14 @@ public class MainActivity extends Activity {
   
   private float normalize_speed(float speed) {
     return (speed < speed_minimum()) ? 0 : speed - speed_minimum();
+  }
+  
+  /*
+   * Prefs gets
+   */
+  private void load_preferences() {
+    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+    prefs = PreferenceManager.getDefaultSharedPreferences(this);
   }
   
   private int speed_step() {
