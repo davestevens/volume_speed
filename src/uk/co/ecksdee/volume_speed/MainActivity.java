@@ -60,8 +60,7 @@ public class MainActivity extends Activity {
     _gps_on();
     
     audio = new Audio(this);
-    audio.set_step(prefs.getInt("pref_volume_step",
-        Integer.parseInt(getString(R.string.pref_volume_steps_default))));
+    audio.set_step(volume_step());
     
     set_volume_bar(audio.volume_percentage());
     set_status(getString(R.string.initialized));
@@ -108,11 +107,6 @@ public class MainActivity extends Activity {
     status.setText(string);
   }
   
-  private void set_speed_units(String string) {
-    TextView speed_units = (TextView) findViewById(R.id.speed_units);
-    speed_units.setText(string);
-  }
-  
   public void initialize_view() {
     set_status(getString(R.string.initializing));
   }
@@ -125,15 +119,12 @@ public class MainActivity extends Activity {
   }
   
   public void change_in_speed(float speed) {
-    float converted_speed = speed;
-    
     float diff = speed - previous_speed;
     Log.i(TAG, "converted_speed: " + speed);
     Log.i(TAG, "previous_speed: " + previous_speed);
     Log.i(TAG, "diff: " + diff);
     
-    Integer step = Integer.parseInt(prefs.getString("pref_speed_steps",
-        getString(R.string.pref_speed_steps_default)));
+    int step = speed_step();
     Log.i(TAG, "step: " + step);
     Log.i(TAG, "times: " + (int) Math.floor(Math.abs(diff) / step));
     Integer times = (int) Math.floor(Math.abs(diff) / step);
@@ -154,5 +145,15 @@ public class MainActivity extends Activity {
     
     set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
+  }
+  
+  private Integer speed_step() {
+    return Integer.parseInt(prefs.getString("pref_speed_steps",
+        getString(R.string.pref_speed_steps_default)));
+  }
+  
+  private Integer volume_step() {
+    return Integer.parseInt(prefs.getString("pref_volume_steps",
+        getString(R.string.pref_volume_steps_default)));
   }
 }
