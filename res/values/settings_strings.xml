@@ -13,6 +13,8 @@
     <string name="pref_speed_step_default">10</string>
     <string name="pref_speed_minimum">Minimum (mph)</string>
     <string name="pref_speed_minimum_default">30</string>
-    <string name="pref_update_frequency">Update Frequency (seconds)</string>
-    <string name="pref_update_frequency_default">5</string>
+    <string name="pref_gps_update_frequency">Update Frequency (seconds)</string>
+    <string name="pref_gps_update_frequency_default">5</string>
+    <string name="pref_gps_active">Active</string>
+    <string name="pref_gps_active_default">true</string>
 </resources>

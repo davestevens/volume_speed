@@ -3,13 +3,11 @@
 
     <string name="app_name">Volume/Speed</string>
 
-    <string name="location_on">On</string>
-    <string name="location_off">Off</string>
     <string name="volume_label">Volume</string>
     <string name="speed_label">Speed</string>
     <string name="current_speed">-</string>
     <string name="speed_units">mph</string>
-    <string name="gps_label">GPS</string>
+
     <string name="no_gps_title">No GPS available</string>
-    <string name="no_gps_message">You must enable GPS to use this app.</string>
+    <string name="no_gps_message">GPS must be enabled to use this app.\n\nSettings > Location > GPS\n\nThen enable in app settings.</string>
 </resources>

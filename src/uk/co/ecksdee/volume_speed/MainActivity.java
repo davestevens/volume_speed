@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class MainActivity extends Activity {
   private Audio audio;
   private DecimalFormat decimal_format;
   private float previous_speed;
+  private static String TAG = "MAIN";
   
   public enum Activity {
     SETTINGS, ABOUT;
@@ -67,7 +69,7 @@ public class MainActivity extends Activity {
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     switch ((Activity) Activity.values()[requestCode]) {
     case SETTINGS:
-      reset_gps();
+      gps_on();
       break;
     default:
       break;
@@ -81,7 +83,7 @@ public class MainActivity extends Activity {
     audio = new Audio(this);
     decimal_format = new DecimalFormat("#0.0");
     
-    reset_gps();
+    gps_on();
     set_volume_bar(audio.volume_percentage());
   }
   
@@ -101,29 +103,22 @@ public class MainActivity extends Activity {
   /*
    * GPS statuses
    */
-  public void gps_on(View view) {
-    reset_gps();
-  }
-  
-  public void gps_off(View view) {
-    location.pause();
-    no_gps();
-  }
-  
-  public void reset_gps() {
-    if (!location.is_enabled()) {
-      no_gps();
+  public void gps_on() {
+    if (!location.is_enabled() || !gps_active()) {
+      gps_off();
     } else {
       location.initialize(update_frequency());
-      RadioButton on = (RadioButton) findViewById(R.id.location_on);
-      on.setChecked(true);
     }
   }
   
-  public void no_gps() {
+  public void gps_off() {
+    location.pause();
+    
+    SharedPreferences.Editor editor = prefs.edit();
+    editor.putBoolean("pref_gps_active", false);
+    editor.commit();
+    
     alert(getString(R.string.no_gps_title), getString(R.string.no_gps_message));
-    RadioButton off = (RadioButton) findViewById(R.id.location_off);
-    off.setChecked(true);
   }
   
   /*
@@ -160,6 +155,11 @@ public class MainActivity extends Activity {
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
   }
   
+  private Boolean gps_active() {
+    return prefs.getBoolean("pref_gps_active",
+        Boolean.parseBoolean(getString(R.string.pref_gps_active)));
+  }
+  
   private int speed_step() {
     return Integer.parseInt(prefs.getString("pref_speed_step",
         getString(R.string.pref_speed_step_default)));
@@ -176,8 +176,8 @@ public class MainActivity extends Activity {
   }
   
   private int update_frequency() {
-    return Integer.parseInt(prefs.getString("pref_update_frequency",
-        getString(R.string.pref_update_frequency_default)));
+    return Integer.parseInt(prefs.getString("pref_gps_update_frequency",
+        getString(R.string.pref_gps_update_frequency_default)));
   }
   
   /*

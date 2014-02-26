@@ -38,12 +38,12 @@ public class Location implements LocationListener {
   
   @Override
   public void onProviderDisabled(String provider) {
-    main_activity.no_gps();
+    main_activity.gps_off();
   }
   
   @Override
   public void onProviderEnabled(String provider) {
-    main_activity.reset_gps();
+    main_activity.gps_on();
   }
   
   @Override

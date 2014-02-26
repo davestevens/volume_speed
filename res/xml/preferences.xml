@@ -4,12 +4,19 @@
         android:title="@string/pref_gps"
         android:key="pref_gps">
         
+    	<CheckBoxPreference
+            android:key="pref_gps_active"
+            android:title="@string/pref_gps_active"
+            android:dialogTitle="@string/pref_gps_active"
+            android:defaultValue="@string/pref_gps_active_default"
+        />
+        
         <EditTextPreference
-            android:key="pref_update_frequency"
-			android:title="@string/pref_update_frequency"
-    		android:dialogTitle="@string/pref_update_frequency"
+            android:key="pref_gps_update_frequency"
+			android:title="@string/pref_gps_update_frequency"
+    		android:dialogTitle="@string/pref_gps_update_frequency"
     		android:inputType="number"
-    		android:defaultValue="@string/pref_update_frequency_default"
+    		android:defaultValue="@string/pref_gps_update_frequency_default"
     	/>
     </PreferenceCategory>
     
