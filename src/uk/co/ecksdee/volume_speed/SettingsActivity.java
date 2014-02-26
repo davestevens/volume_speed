@@ -17,6 +17,7 @@ public class SettingsActivity extends PreferenceActivity {
     bindPreferenceSummaryToValue(findPreference("pref_volume_step"));
     bindPreferenceSummaryToValue(findPreference("pref_speed_step"));
     bindPreferenceSummaryToValue(findPreference("pref_speed_minimum"));
+    bindPreferenceSummaryToValue(findPreference("pref_update_frequency"));
   }
   
   /**

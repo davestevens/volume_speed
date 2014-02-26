@@ -11,7 +11,6 @@ public class Location implements LocationListener {
   private LocationManager locationManager;
   
   private static float MIN_DISTANCE = 10; // Meters
-  private static long MIN_TIME = 1000; // Milliseconds
   
   public Location(MainActivity ma) {
     main_activity = ma;
@@ -19,9 +18,9 @@ public class Location implements LocationListener {
         .getSystemService(Context.LOCATION_SERVICE);
   }
   
-  public void initialize() {
+  public void initialize(int min_time) {
     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
-        MIN_TIME, MIN_DISTANCE, this);
+        (long) min_time * 1000, MIN_DISTANCE, this);
   }
   
   public Boolean is_enabled() {
@@ -44,7 +43,7 @@ public class Location implements LocationListener {
   
   @Override
   public void onProviderEnabled(String provider) {
-    main_activity._gps_on();
+    main_activity.reset_gps();
   }
   
   @Override

@@ -26,6 +26,10 @@ public class MainActivity extends Activity {
   private DecimalFormat decimal_format;
   private float previous_speed;
   
+  public enum Activity {
+    SETTINGS;
+  };
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -46,10 +50,21 @@ public class MainActivity extends Activity {
     switch (item.getItemId()) {
     case R.id.action_settings:
       Intent intent = new Intent(this, SettingsActivity.class);
-      startActivity(intent);
+      startActivityForResult(intent, Activity.SETTINGS.ordinal());
       return true;
     default:
       return false;
+    }
+  }
+  
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch ((Activity) Activity.values()[requestCode]) {
+    case SETTINGS:
+      reset_gps();
+      break;
+    default:
+      break;
     }
   }
   
@@ -60,7 +75,7 @@ public class MainActivity extends Activity {
     audio = new Audio(this);
     decimal_format = new DecimalFormat("#0.0");
     
-    _gps_on();
+    reset_gps();
     set_volume_bar(audio.volume_percentage());
   }
   
@@ -81,7 +96,7 @@ public class MainActivity extends Activity {
    * GPS statuses
    */
   public void gps_on(View view) {
-    _gps_on();
+    reset_gps();
   }
   
   public void gps_off(View view) {
@@ -89,11 +104,11 @@ public class MainActivity extends Activity {
     no_gps();
   }
   
-  public void _gps_on() {
+  public void reset_gps() {
     if (!location.is_enabled()) {
       no_gps();
     } else {
-      location.initialize();
+      location.initialize(update_frequency());
       RadioButton on = (RadioButton) findViewById(R.id.location_on);
       on.setChecked(true);
     }
@@ -152,6 +167,11 @@ public class MainActivity extends Activity {
   private int speed_minimum() {
     return Integer.parseInt(prefs.getString("pref_speed_minimum",
         getString(R.string.pref_speed_minimum_default)));
+  }
+  
+  private int update_frequency() {
+    return Integer.parseInt(prefs.getString("pref_update_frequency",
+        getString(R.string.pref_update_frequency_default)));
   }
   
   /*

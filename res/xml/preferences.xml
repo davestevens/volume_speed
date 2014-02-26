@@ -25,4 +25,12 @@
     	android:inputType="number"
     	android:defaultValue="@string/pref_speed_minimum_default"
     />
+    
+     <EditTextPreference
+		android:key="pref_update_frequency"
+		android:title="@string/pref_update_frequency"
+    	android:dialogTitle="@string/pref_update_frequency"
+    	android:inputType="number"
+    	android:defaultValue="@string/pref_update_frequency_default"
+    />
 </PreferenceScreen>
