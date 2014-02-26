@@ -15,6 +15,7 @@ public class SettingsActivity extends PreferenceActivity {
     addPreferencesFromResource(R.xml.preferences);
     
     bindPreferenceSummaryToValue(findPreference("pref_volume_step"));
+    bindPreferenceSummaryToValue(findPreference("pref_volume_maximum"));
     bindPreferenceSummaryToValue(findPreference("pref_speed_step"));
     bindPreferenceSummaryToValue(findPreference("pref_speed_minimum"));
     bindPreferenceSummaryToValue(findPreference("pref_gps_update_frequency"));

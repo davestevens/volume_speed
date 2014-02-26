@@ -12,8 +12,8 @@ public class Location implements LocationListener {
   
   private static float MIN_DISTANCE = 10; // Meters
   
-  public Location(MainActivity ma) {
-    main_activity = ma;
+  public Location(MainActivity main_activity) {
+    this.main_activity = main_activity;
     locationManager = (LocationManager) main_activity
         .getSystemService(Context.LOCATION_SERVICE);
   }

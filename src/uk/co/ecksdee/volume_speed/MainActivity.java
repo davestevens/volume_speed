@@ -11,22 +11,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-  
-  private SharedPreferences prefs;
+  public SharedPreferences prefs;
   private Location location;
   private Audio audio;
   private DecimalFormat decimal_format;
   private float previous_speed;
-  private static String TAG = "MAIN";
   
   public enum Activity {
     SETTINGS, ABOUT;
