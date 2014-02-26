@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
   private float previous_speed;
   
   public enum Activity {
-    SETTINGS;
+    SETTINGS, ABOUT;
   };
   
   @Override
@@ -48,10 +48,16 @@ public class MainActivity extends Activity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-    case R.id.action_settings:
+    case R.id.action_settings: {
       Intent intent = new Intent(this, SettingsActivity.class);
       startActivityForResult(intent, Activity.SETTINGS.ordinal());
       return true;
+    }
+    case R.id.action_about: {
+      Intent intent = new Intent(this, AboutActivity.class);
+      startActivityForResult(intent, Activity.ABOUT.ordinal());
+      return true;
+    }
     default:
       return false;
     }

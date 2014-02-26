@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_volume_step">Volume Steps</string>
+    <string name="pref_volume_step_default">2</string>
+    <string name="pref_speed_step">Speed Steps</string>
+    <string name="pref_speed_step_default">10</string>
+    <string name="pref_speed_minimum">Minimum Speed (mph)</string>
+    <string name="pref_speed_minimum_default">30</string>
+    <string name="pref_update_frequency">GPS Update Frequency (seconds)</string>
+    <string name="pref_update_frequency_default">5</string>
+</resources>
