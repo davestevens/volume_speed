@@ -133,7 +133,7 @@ public class MainActivity extends Activity {
         change = audio.down(volume_step() * times);
       }
     }
-    previous_speed += step * change;
+    previous_speed += step * (change / volume_step());
     set_current_speed(speed);
     set_volume_bar(audio.volume_percentage());
   }
