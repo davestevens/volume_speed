@@ -9,30 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <RadioGroup
-        android:id="@+id/location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/main_activity_child_vertical_padding"
-        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
-
-        <RadioButton
-            android:id="@+id/location_on"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:onClick="gps_on"
-            android:text="@string/location_on" />
-
-        <RadioButton
-            android:id="@+id/location_off"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="gps_off"
-            android:text="@string/location_off" />
-    </RadioGroup>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,7 +28,6 @@
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -89,30 +64,5 @@
                 android:paddingLeft="10dp" />
 
         </LinearLayout>
-
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/main_activity_child_vertical_padding"
-        android:paddingBottom="@dimen/main_activity_child_vertical_padding" >
-
-        <TextView
-            android:id="@+id/status_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/status_label"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/status"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    </LinearLayout>
-
 </LinearLayout>

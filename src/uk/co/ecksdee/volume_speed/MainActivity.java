@@ -7,22 +7,25 @@ import uk.co.ecksdee.volume_speed.utils.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
-  
-  private SharedPreferences prefs;
+  public SharedPreferences prefs;
   private Location location;
   private Audio audio;
   private DecimalFormat decimal_format;
   private float previous_speed;
+  
+  public enum Activity {
+    SETTINGS, ABOUT;
+  };
   
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -42,26 +45,41 @@ public class MainActivity extends Activity {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
-    case R.id.action_settings:
+    case R.id.action_settings: {
       Intent intent = new Intent(this, SettingsActivity.class);
-      startActivity(intent);
+      startActivityForResult(intent, Activity.SETTINGS.ordinal());
       return true;
+    }
+    case R.id.action_about: {
+      Intent intent = new Intent(this, AboutActivity.class);
+      startActivityForResult(intent, Activity.ABOUT.ordinal());
+      return true;
+    }
     default:
       return false;
     }
   }
   
+  @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    switch ((Activity) Activity.values()[requestCode]) {
+    case SETTINGS:
+      gps_on();
+      break;
+    default:
+      break;
+    }
+  }
+  
   private void initialize() {
     load_preferences();
-    initialize_view();
     
     location = new Location(this);
     audio = new Audio(this);
     decimal_format = new DecimalFormat("#0.0");
     
-    _gps_on();
+    gps_on();
     set_volume_bar(audio.volume_percentage());
-    set_status(getString(R.string.initialized));
   }
   
   /*
@@ -72,48 +90,31 @@ public class MainActivity extends Activity {
     volume_bar.setProgress(volume);
   }
   
-  private void set_current_speed(Float speed) {
+  private void set_current_speed(String speed) {
     TextView current_speed = (TextView) findViewById(R.id.current_speed);
-    current_speed.setText(decimal_format.format(speed).toString());
-  }
-  
-  private void set_status(String string) {
-    TextView status = (TextView) findViewById(R.id.status);
-    status.setText(string);
-  }
-  
-  private void initialize_view() {
-    set_status(getString(R.string.initializing));
+    current_speed.setText(speed);
   }
   
   /*
    * GPS statuses
    */
-  public void gps_on(View view) {
-    _gps_on();
-  }
-  
-  public void gps_off(View view) {
-    location.pause();
-    no_gps();
-  }
-  
-  public void _gps_on() {
-    if (!location.is_enabled()) {
-      no_gps();
+  public void gps_on() {
+    if (!location.is_enabled() || !gps_active()) {
+      gps_off();
     } else {
-      location.initialize();
-      RadioButton on = (RadioButton) findViewById(R.id.location_on);
-      on.setChecked(true);
-      set_status(getString(R.string.initialized));
+      location.initialize(update_frequency());
     }
   }
   
-  public void no_gps() {
-    TextView status = (TextView) findViewById(R.id.status);
-    status.setText(getString(R.string.no_gps));
-    RadioButton off = (RadioButton) findViewById(R.id.location_off);
-    off.setChecked(true);
+  public void gps_off() {
+    location.pause();
+    
+    SharedPreferences.Editor editor = prefs.edit();
+    editor.putBoolean("pref_gps_active", false);
+    editor.commit();
+    
+    alert(getString(R.string.no_gps_title), getString(R.string.no_gps_message));
+    set_current_speed(getString(R.string.current_speed));
   }
   
   /*
@@ -128,15 +129,13 @@ public class MainActivity extends Activity {
     
     if (times >= 1) {
       if (speed_difference > 0) {
-        set_status("Increasing " + times);
         change = audio.up(volume_step() * times);
       } else {
-        set_status("Decreasing " + times);
         change = audio.down(volume_step() * times);
       }
     }
-    previous_speed += step * change;
-    set_current_speed(speed);
+    previous_speed += step * (change / volume_step());
+    set_current_speed(decimal_format.format(speed).toString());
     set_volume_bar(audio.volume_percentage());
   }
   
@@ -152,6 +151,11 @@ public class MainActivity extends Activity {
     prefs = PreferenceManager.getDefaultSharedPreferences(this);
   }
   
+  private Boolean gps_active() {
+    return prefs.getBoolean("pref_gps_active",
+        Boolean.parseBoolean(getString(R.string.pref_gps_active)));
+  }
+  
   private int speed_step() {
     return Integer.parseInt(prefs.getString("pref_speed_step",
         getString(R.string.pref_speed_step_default)));
@@ -165,5 +169,29 @@ public class MainActivity extends Activity {
   private int speed_minimum() {
     return Integer.parseInt(prefs.getString("pref_speed_minimum",
         getString(R.string.pref_speed_minimum_default)));
+  }
+  
+  private int update_frequency() {
+    return Integer.parseInt(prefs.getString("pref_gps_update_frequency",
+        getString(R.string.pref_gps_update_frequency_default)));
+  }
+  
+  /*
+   * Alert dialog
+   */
+  private void alert(String title, String message) {
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+    alertDialogBuilder.setTitle(title);
+    
+    alertDialogBuilder.setMessage(message).setCancelable(false)
+        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int id) {
+            dialog.cancel();
+          }
+        });
+    
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    
+    alertDialog.show();
   }
 }

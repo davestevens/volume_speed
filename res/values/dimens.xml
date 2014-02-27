@@ -5,5 +5,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     
     <dimen name="main_activity_child_vertical_padding">10dp</dimen>
+    
+    <dimen name="about_activity_email_padding">20dp</dimen>
 
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_about">About</string>
+	<string name="title_activity_about">About</string>
+	
+	<string name="about_title">About</string>
+	<string name="about_body">I made this app for use on my motorbike where it can be tricky to change the volume of my music while riding.\n\nThis is my first attempt at making an Android app, let me know if you find any problems or have any suggestions for improvements!</string>
+	<string name="about_email">dave@ecksdee.co.uk</string>
+</resources>
