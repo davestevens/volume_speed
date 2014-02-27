@@ -90,9 +90,9 @@ public class MainActivity extends Activity {
     volume_bar.setProgress(volume);
   }
   
-  private void set_current_speed(Float speed) {
+  private void set_current_speed(String speed) {
     TextView current_speed = (TextView) findViewById(R.id.current_speed);
-    current_speed.setText(decimal_format.format(speed).toString());
+    current_speed.setText(speed);
   }
   
   /*
@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
     editor.commit();
     
     alert(getString(R.string.no_gps_title), getString(R.string.no_gps_message));
+    set_current_speed(getString(R.string.current_speed));
   }
   
   /*
@@ -134,7 +135,7 @@ public class MainActivity extends Activity {
       }
     }
     previous_speed += step * (change / volume_step());
-    set_current_speed(speed);
+    set_current_speed(decimal_format.format(speed).toString());
     set_volume_bar(audio.volume_percentage());
   }
   
